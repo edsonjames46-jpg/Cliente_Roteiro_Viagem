@@ -2,11 +2,14 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zecure Admin | Command Center</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Roteiro de Viagem - Gramado</title>
 
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
@@ -17,561 +20,437 @@
 
     <style>
       :root {
-        --bg-body: #f8fafc;
-        --sidebar-bg: #0f172a;
-        --sidebar-text: #94a3b8;
-        --accent: #2563eb;
-        --card-shadow:
-          0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        --radius-lg: 12px;
+        --zecure-navy: #0f172a;
+        --zecure-blue: #2563eb;
+        --bg-app: #f1f5f9;
+        --card-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        --radius-xl: 20px;
+        --border-soft: #e2e8f0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
       }
 
       body {
         font-family: "Inter", sans-serif;
-        background-color: var(--bg-body);
+        background-color: var(--bg-app);
         color: #1e293b;
-        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
 
       .hidden {
         display: none !important;
       }
 
-      #panelView {
-        display: grid;
-        grid-template-columns: 260px 1fr;
-        min-height: 100vh;
-      }
-
-      aside {
-        background: var(--sidebar-bg);
+      .app-header {
+        background: var(--zecure-navy);
         color: white;
-        padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        position: sticky;
-        top: 0;
-        height: 100vh;
+        padding: 2rem 1rem 4rem;
+        border-radius: 0 0 30px 30px;
+        margin-bottom: -2.5rem;
       }
 
-      .nav-link {
-        color: var(--sidebar-text);
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
-        margin-bottom: 0.5rem;
+      .card-zecure {
+        background: white;
+        border: none;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--card-shadow);
+        padding: 1.25rem;
+        transition: transform 0.2s ease;
+      }
+
+      .summary-value {
+        font-size: 1.75rem;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .nav-segmented {
+        background: #e2e8f0;
+        padding: 4px;
+        border-radius: 14px;
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+      }
+
+      .nav-segmented .nav-link {
+        flex: 1;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.85rem;
         transition: all 0.2s;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border: none;
-        background: transparent;
-        width: 100%;
-        text-align: left;
-        cursor: pointer;
+        white-space: nowrap;
+        min-width: fit-content;
       }
 
-      .nav-link:hover,
-      .nav-link.active {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-      }
-
-      .nav-link.active {
-        background: var(--accent);
-      }
-
-      main {
-        padding: 2rem;
-      }
-
-      .header-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
+      .nav-segmented .nav-link.active {
         background: white;
-        padding: 1rem 1.5rem;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--card-shadow);
+        color: var(--zecure-navy);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
       }
 
-      .card-kpi {
-        background: white;
-        border: none;
-        border-radius: var(--radius-lg);
-        padding: 1.5rem;
-        box-shadow: var(--card-shadow);
-        transition: transform 0.2s;
+      .timeline-item {
+        position: relative;
+        padding-left: 1.5rem;
+        border-left: 2px solid #e2e8f0;
+        padding-bottom: 1rem;
       }
 
-      .card-kpi:hover {
-        transform: translateY(-3px);
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -7px;
+        top: 0;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--zecure-blue);
+        border: 2px solid white;
       }
 
-      .kpi-icon {
-        width: 40px;
-        height: 40px;
+      .timeline-item.done {
+        border-left-color: #22c55e;
+      }
+
+      .timeline-item.done::before {
+        background: #22c55e;
+      }
+
+      .login-shell {
+        position: relative;
+        min-height: 100dvh;
+        min-height: 100svh;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 10px;
+        background:
+          linear-gradient(rgba(15, 23, 42, 0.72), rgba(15, 23, 42, 0.72)),
+          url("gramado.png") center center / cover no-repeat;
+        padding: 24px 16px;
+      }
+
+      .login-card {
+        width: 100%;
+        max-width: 420px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 28px;
+        padding: 2rem;
+        color: white;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+      }
+
+      .day-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .day-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        flex-wrap: wrap;
         margin-bottom: 1rem;
+        padding: 0.85rem 1rem;
+        background: #e2e8f0;
+        border-radius: 14px;
+        font-weight: 700;
+        color: #0f172a;
       }
 
-      .table-container {
-        background: white;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--card-shadow);
-        overflow: hidden;
-      }
-
-      .status-pill {
-        padding: 0.25rem 0.75rem;
-        border-radius: 20px;
+      .day-badge {
+        background: var(--zecure-navy);
+        color: white;
+        border-radius: 999px;
+        padding: 0.3rem 0.7rem;
         font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
+        font-weight: 700;
       }
 
-      .bg-pending {
-        background: #fef3c7;
-        color: #92400e;
-      }
-      .bg-success-light {
-        background: #dcfce7;
-        color: #166534;
+      .timeline-time {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 0.35rem;
       }
 
-      .login-container {
-        background: white;
-        border-radius: 24px;
-        padding: 3rem;
-        box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+      .timeline-address {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 0.4rem;
+        word-break: break-word;
+      }
+
+      .timeline-status-icon {
+        flex-shrink: 0;
+      }
+
+      .voucher-card-title {
+        font-size: 0.95rem;
+        font-weight: 700;
       }
 
       .toast-container {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1050;
+        z-index: 2000;
       }
 
-      .view-pane {
-        animation: fadeIn 0.3s ease-in;
+      .login-card .form-control {
+        min-height: 48px;
       }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
+      .btn {
+        min-height: 44px;
+      }
+
+      @media (max-width: 991.98px) {
+        .app-header {
+          padding: 1.5rem 1rem 3.5rem;
         }
-        to {
-          opacity: 1;
+
+        .summary-value {
+          font-size: 1.45rem;
         }
       }
 
-      .cliente-badge {
-        display: inline-block;
-        background: #e0e7ff;
-        color: #3730a3;
-        padding: 0.25rem 0.75rem;
-        border-radius: 12px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
+      @media (max-width: 767.98px) {
+        .app-header {
+          border-radius: 0 0 24px 24px;
+          margin-bottom: -2rem;
+        }
+
+        .card-zecure {
+          padding: 1rem;
+          border-radius: 16px;
+        }
+
+        .summary-value {
+          font-size: 1.25rem;
+        }
+
+        .timeline-item {
+          padding-left: 1rem;
+        }
+
+        .timeline-item::before {
+          left: -6px;
+          width: 10px;
+          height: 10px;
+        }
+
+        .day-header {
+          padding: 0.75rem 0.9rem;
+        }
+
+        .login-card {
+          padding: 1.5rem;
+          border-radius: 22px;
+        }
+
+        .toast-container {
+          left: 0 !important;
+          right: 0 !important;
+          top: 0 !important;
+          transform: none !important;
+          padding-left: 12px !important;
+          padding-right: 12px !important;
+        }
       }
 
-      select[multiple] {
-        min-height: 150px;
-      }
+      @media (max-width: 480px) {
+        .summary-value {
+          font-size: 1.1rem;
+        }
 
-      select[multiple] option {
-        padding: 0.5rem;
-      }
+        .nav-segmented .nav-link {
+          font-size: 0.8rem;
+          padding: 8px 10px;
+        }
 
-      .form-text {
-        font-size: 0.85rem;
-        color: #6b7280;
-        margin-top: 0.25rem;
+        .timeline-time {
+          font-size: 0.75rem;
+        }
+
+        .timeline-address,
+        .small {
+          font-size: 0.8rem !important;
+        }
       }
     </style>
   </head>
 
   <body>
-    <div class="toast-container"></div>
-
-    <!-- Login Section -->
     <div
-      id="loginView"
-      class="container row justify-content-center align-items-center vh-100 mx-auto"
-    >
-      <div class="col-md-5 col-lg-4">
-        <div class="login-container text-center">
-          <div class="mb-4">
-            <i
-              data-lucide="shield-check"
-              class="text-primary"
-              style="width: 48px; height: 48px"
-            ></i>
-          </div>
-          <h2 class="fw-bold mb-1">Zecure Admin</h2>
-          <p class="text-muted mb-4">Acesso Restrito ao Command Center</p>
+      class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
+    ></div>
 
-          <div class="text-start mb-3">
-            <label class="form-label small fw-bold">ID Corporativo</label>
-            <input
-              type="email"
-              id="adminEmail"
-              class="form-control form-control-lg"
-              placeholder="admin@zecure.com"
-            />
-          </div>
-
-          <div class="text-start mb-4">
-            <label class="form-label small fw-bold">Chave de Acesso</label>
-            <input
-              type="password"
-              id="adminSenha"
-              class="form-control form-control-lg"
-            />
-          </div>
-
-          <button
-            class="btn btn-primary w-100 py-3 fw-bold shadow-sm"
-            id="btnLogin"
-          >
-            Autenticar Sistema
-          </button>
-          <div id="loginMsg" class="text-danger mt-3 small"></div>
+    <div id="loginView" class="login-shell">
+      <div class="login-card text-center">
+        <div class="mb-4">
+          <i
+            data-lucide="lock"
+            class="text-primary"
+            style="width: 48px; height: 48px"
+          ></i>
         </div>
+        <h2 class="fw-bold mb-1">Guia Turismo - JG</h2>
+        <p class="text-white-50 small mb-4">Portal de Acesso Seguro</p>
+
+        <div class="text-start mb-3">
+          <label class="form-label small fw-bold text-white-50">
+            IDENTIFICADOR
+          </label>
+          <input
+            type="text"
+            id="loginNome"
+            class="form-control form-control-lg bg-dark text-white border-0"
+            placeholder="Nome de usuário"
+          />
+        </div>
+
+        <div class="text-start mb-4">
+          <label class="form-label small fw-bold text-white-50">
+            PIN DE SEGURANÇA
+          </label>
+          <input
+            type="password"
+            id="loginPin"
+            class="form-control form-control-lg bg-dark text-white border-0"
+            inputmode="numeric"
+          />
+        </div>
+
+        <button class="btn btn-primary w-100 py-3 fw-bold" id="btnLogin">
+          Acessar Painel
+        </button>
+        <div id="loginMsg" class="text-danger mt-3 small"></div>
       </div>
     </div>
 
-    <!-- Main Panel Layout -->
     <div id="panelView" class="hidden">
-      <aside>
-        <div class="mb-5 d-flex align-items-center gap-2">
-          <i data-lucide="shield" class="text-primary"></i>
-          <span class="fw-bold h5 mb-0">ZECURE</span>
-        </div>
-
-        <nav class="flex-grow-1">
-          <button class="nav-link active" data-tab="tabDashboard">
-            <i data-lucide="layout-dashboard"></i> Dashboard
-          </button>
-          <button class="nav-link" data-tab="tabRoteiro">
-            <i data-lucide="map"></i> Roteiros
-          </button>
-          <button class="nav-link" data-tab="tabFinanceiro">
-            <i data-lucide="dollar-sign"></i> Financeiro
-          </button>
-          <button class="nav-link" data-tab="tabClientes">
-            <i data-lucide="users"></i> Clientes (IAM)
-          </button>
-          <button class="nav-link" data-tab="tabVouchers">
-            <i data-lucide="ticket"></i> Vouchers
-          </button>
-        </nav>
-
-        <div class="mt-auto border-top pt-3 border-secondary">
-          <button class="btn btn-link text-danger nav-link" id="btnLogout">
-            <i data-lucide="log-out"></i> Sair do Sistema
-          </button>
-        </div>
-      </aside>
-
-      <main>
-        <header class="header-top">
-          <div>
-            <h1 class="h4 fw-bold mb-0" id="pageTitle">
-              Dashboard Operacional
-            </h1>
-            <span class="text-muted small" id="loggedAdminEmail"></span>
-          </div>
-          <div class="d-flex gap-3 align-items-center">
-            <span class="badge bg-success-light text-success"
-              >Sistema Online</span
+      <header class="app-header">
+        <div class="container">
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-3"
+          >
+            <div>
+              <p class="text-white-50 small mb-0">Gramado - City</p>
+              <h1 class="h4 fw-bold mb-0" id="clientDisplayName">
+                Carregando...
+              </h1>
+            </div>
+            <button
+              class="btn btn-sm btn-outline-light rounded-pill px-3"
+              id="btnLogout"
             >
+              Sair
+            </button>
           </div>
-        </header>
+        </div>
+      </header>
 
-        <div id="viewContent">
-          <!-- Dashboard Home -->
-          <div id="tabDashboard" class="view-pane">
-            <div class="row g-4 mb-4">
-              <div class="col-md-3">
-                <div class="card-kpi">
-                  <div class="kpi-icon bg-primary-subtle text-primary">
-                    <i data-lucide="users"></i>
-                  </div>
-                  <div class="text-muted small fw-bold">CLIENTES ATIVOS</div>
-                  <h2 class="fw-bold mb-0" id="statClientes">0</h2>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card-kpi">
-                  <div class="kpi-icon bg-success-subtle text-success">
-                    <i data-lucide="check-circle"></i>
-                  </div>
-                  <div class="text-muted small fw-bold">EXECUÇÃO</div>
-                  <h2 class="fw-bold mb-0" id="statRoteiro">0%</h2>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card-kpi">
-                  <div class="kpi-icon bg-warning-subtle text-warning">
-                    <i data-lucide="clock"></i>
-                  </div>
-                  <div class="text-muted small fw-bold">PENDÊNCIAS</div>
-                  <h2 class="fw-bold mb-0" id="statPendentes">0</h2>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="card-kpi bg-dark text-white">
-                  <div class="kpi-icon bg-white-subtle text-white">
-                    <i data-lucide="trending-up"></i>
-                  </div>
-                  <div class="text-light small fw-bold">CAIXA ACUMULADO</div>
-                  <h2 class="fw-bold mb-0" id="statFinanceiro">R$ 0,00</h2>
-                </div>
+      <main class="container">
+        <div class="row g-3 mb-4">
+          <div class="col-4">
+            <div class="card-zecure text-center h-100">
+              <div class="text-muted small fw-bold mb-1">PENDENTE</div>
+              <div class="summary-value text-warning" id="countPendentes">
+                0
               </div>
             </div>
           </div>
+          <div class="col-4">
+            <div class="card-zecure text-center h-100">
+              <div class="text-muted small fw-bold mb-1">OK</div>
+              <div class="summary-value text-success" id="countConcluidas">
+                0
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card-zecure text-center bg-dark text-white h-100">
+              <div class="text-white-50 small fw-bold mb-1">TOTAL</div>
+              <div class="summary-value" id="totalGastos">R$ 0</div>
+            </div>
+          </div>
+        </div>
 
-          <!-- Tab Roteiro -->
-          <div id="tabRoteiro" class="view-pane hidden">
-            <div class="row g-4">
-              <div class="col-lg-4">
-                <div class="card-kpi">
-                  <h5 class="fw-bold mb-4">Nova Atividade</h5>
+        <div class="nav-segmented mb-4" role="tablist">
+          <button
+            class="nav-link active"
+            data-bs-toggle="tab"
+            data-bs-target="#tabRoteiro"
+            type="button"
+          >
+            Roteiro
+          </button>
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#tabFinanceiro"
+            type="button"
+          >
+            Financeiro
+          </button>
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#tabVouchers"
+            type="button"
+          >
+            Vouchers
+          </button>
+        </div>
 
-                  <input type="hidden" id="roteiroId" />
+        <div class="tab-content pb-4">
+          <div class="tab-pane fade show active" id="tabRoteiro">
+            <div id="roteiroLista" class="ps-1 ps-md-2"></div>
+          </div>
 
-                  <div class="mb-3">
-                    <label
-                      for="roteiroCliente"
-                      class="form-label small fw-bold"
-                    >
-                      Selecionar clientes
-                    </label>
-                    <select
-                      id="roteiroCliente"
-                      class="form-select"
-                      multiple
-                      size="6"
-                    ></select>
-                    <div class="form-text">
-                      Segure Ctrl (ou Cmd no Mac) para selecionar mais de uma
-                      pessoa.
-                    </div>
-                  </div>
-
-                  <div class="row g-2 mb-3">
-                    <div class="col-6">
-                      <input
-                        type="date"
-                        id="roteiroData"
-                        class="form-control"
-                      />
-                    </div>
-                    <div class="col-6">
-                      <input
-                        type="time"
-                        id="roteiroHorario"
-                        class="form-control"
-                      />
-                    </div>
-                  </div>
-
+          <div class="tab-pane fade" id="tabFinanceiro">
+            <div class="card-zecure mb-4">
+              <h6 class="fw-bold mb-3">Lançamento de Despesa</h6>
+              <div class="row g-2">
+                <div class="col-12">
                   <input
                     type="text"
-                    id="roteiroAtracao"
-                    class="form-control mb-3"
-                    placeholder="Atração/Local"
+                    id="finDesc"
+                    class="form-control"
+                    placeholder="Descrição do gasto"
                   />
-
-                  <textarea
-                    id="roteiroObs"
-                    class="form-control mb-3"
-                    placeholder="Instruções de segurança"
-                  ></textarea>
-
+                </div>
+                <div class="col-7">
                   <input
-                    type="text"
-                    id="roteiroEnd"
-                    class="form-control mb-3"
-                    placeholder="Endereço georreferenciado"
+                    type="number"
+                    id="finValor"
+                    class="form-control"
+                    placeholder="Valor R$"
                   />
-
-                  <button
-                    class="btn btn-primary w-100 py-2"
-                    id="btnSaveRoteiro"
-                    type="button"
-                  >
-                    Agendar Registro
+                </div>
+                <div class="col-5">
+                  <button class="btn btn-primary w-100" id="btnSaveFin">
+                    Lançar
                   </button>
                 </div>
               </div>
-
-              <div class="col-lg-8">
-                <div id="roteiroLista" class="d-flex flex-column gap-3"></div>
-              </div>
             </div>
+            <div id="finCards"></div>
           </div>
 
-          <!-- Tab Financeiro -->
-          <div id="tabFinanceiro" class="view-pane hidden">
-            <div class="table-container p-3">
-              <div class="d-flex justify-content-between mb-3">
-                <h5 class="fw-bold">Fluxo de Caixa</h5>
-                <button class="btn btn-dark btn-sm" id="btnNewFin">
-                  Novo Lançamento
-                </button>
-              </div>
-              <div class="table-responsive">
-                <table class="table align-middle">
-                  <thead class="table-light">
-                    <tr>
-                      <th>Data</th>
-                      <th>Cliente</th>
-                      <th>Descrição</th>
-                      <th>Valor</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody id="finTabela"></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tab Clientes -->
-          <div id="tabClientes" class="view-pane hidden">
-            <div class="row g-4">
-              <div class="col-lg-4">
-                <div class="card-kpi">
-                  <h5 class="fw-bold mb-4">Gestão de Identidade</h5>
-
-                  <input type="hidden" id="clienteId" />
-
-                  <input
-                    type="text"
-                    id="clienteNome"
-                    class="form-control mb-3"
-                    placeholder="Nome Completo"
-                  />
-
-                  <input
-                    type="password"
-                    id="clientePin"
-                    class="form-control mb-3"
-                    placeholder="PIN (4-6 dígitos)"
-                  />
-
-                  <select id="clienteRole" class="form-select mb-4">
-                    <option value="cliente">Standard User</option>
-                    <option value="cliente_vip">VIP Access</option>
-                  </select>
-
-                  <div class="mb-3">
-                    <label class="small fw-bold text-muted"
-                      >Privilégios do Painel:</label
-                    >
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="p_rot"
-                        checked
-                      />
-                      <label class="form-check-label" for="p_rot"
-                        >Roteiro</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="p_fin"
-                        checked
-                      />
-                      <label class="form-check-label" for="p_fin"
-                        >Financeiro</label
-                      >
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="p_vou"
-                        checked
-                      />
-                      <label class="form-check-label" for="p_vou"
-                        >Vouchers</label
-                      >
-                    </div>
-                  </div>
-
-                  <button class="btn btn-primary w-100" id="btnSaveCliente">
-                    Sincronizar Acesso
-                  </button>
-                </div>
-              </div>
-
-              <div class="col-lg-8">
-                <div class="table-container">
-                  <table class="table mb-0">
-                    <thead class="table-light">
-                      <tr>
-                        <th>Nome</th>
-                        <th>Perfil</th>
-                        <th>Ações</th>
-                      </tr>
-                    </thead>
-                    <tbody id="clientesTabela"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tab Vouchers -->
-          <div id="tabVouchers" class="view-pane hidden">
-            <div class="row g-4">
-              <div class="col-lg-4">
-                <div class="card-kpi">
-                  <h5 class="fw-bold mb-4">Repositório de Vouchers</h5>
-
-                  <select id="vouCliente" class="form-select mb-3">
-                    <option value="">Selecionar Cliente...</option>
-                  </select>
-
-                  <input
-                    type="text"
-                    id="vouAtracao"
-                    class="form-control mb-3"
-                    placeholder="Atração"
-                  />
-
-                  <input type="date" id="vouData" class="form-control mb-3" />
-
-                  <input
-                    type="file"
-                    id="vouFile"
-                    class="form-control mb-3"
-                    accept="image/*,.pdf"
-                  />
-
-                  <button class="btn btn-primary w-100" id="btnSaveVoucher">
-                    Upload & Vincular
-                  </button>
-                </div>
-              </div>
-
-              <div class="col-lg-8">
-                <div id="vouLista" class="row g-3"></div>
-              </div>
-            </div>
+          <div class="tab-pane fade" id="tabVouchers">
+            <div id="vouLista" class="row g-3"></div>
           </div>
         </div>
       </main>
@@ -582,28 +461,14 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
       import {
-        getAuth,
-        signInWithEmailAndPassword,
-        onAuthStateChanged,
-        signOut,
-      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-      import {
         getDatabase,
         ref,
         push,
         set,
         update,
-        remove,
         onValue,
         get,
       } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-      import {
-        getStorage,
-        ref as sRef,
-        uploadBytes,
-        getDownloadURL,
-        deleteObject,
-      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyCh7MttxSXI8hBuL1yhCqIsx_e2yXP0_HU",
@@ -617,264 +482,163 @@
       };
 
       const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
       const db = getDatabase(app);
-      const storage = getStorage(app);
 
-      let usersCache = [];
-      let realtimeInitialized = false;
+      let userData = null;
+      let activeListeners = [];
 
-      // UI Utilities
-      const showToast = (msg, type = "primary") => {
+      const notify = (msg, type = "primary") => {
         const id = Date.now();
-        const html = `
-          <div id="toast-${id}" class="toast align-items-center text-white bg-${type} border-0 show" role="alert">
-            <div class="d-flex">
-              <div class="toast-body">${msg}</div>
-              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-          </div>`;
+        const html = `<div id="toast-${id}" class="toast align-items-center text-white bg-${type} border-0 show mb-2" role="alert"><div class="d-flex"><div class="toast-body fw-bold">${msg}</div></div></div>`;
         document
           .querySelector(".toast-container")
           .insertAdjacentHTML("beforeend", html);
-        setTimeout(
-          () => document.getElementById(`toast-${id}`)?.remove(),
-          3000,
-        );
-      };
-
-      const escapeHtml = (value) => {
-        return String(value ?? "")
-          .replaceAll("&", "&amp;")
-          .replaceAll("&lt;", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#039;");
-      };
-
-      const formatBRL = (value) => {
-        return Number(value || 0).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
+        setTimeout(() => {
+          document.getElementById(`toast-${id}`)?.remove();
+        }, 3000);
       };
 
       const hashPin = async (pin) => {
-        const msgUint8 = new TextEncoder().encode(pin);
+        const msgUint8 = new TextEncoder().encode(String(pin));
         const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
         return Array.from(new Uint8Array(hashBuffer))
           .map((b) => b.toString(16).padStart(2, "0"))
           .join("");
       };
 
-      // Tab Navigation
-      document.querySelectorAll("[data-tab]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const target = btn.dataset.tab;
-          document
-            .querySelectorAll(".view-pane")
-            .forEach((p) => p.classList.add("hidden"));
-          document
-            .querySelectorAll("[data-tab]")
-            .forEach((b) => b.classList.remove("active"));
-
-          const targetElement = document.getElementById(target);
-          if (targetElement) {
-            targetElement.classList.remove("hidden");
-          }
-          btn.classList.add("active");
-          document.getElementById("pageTitle").innerText = btn.innerText.trim();
+      function formatCurrencyBRL(value) {
+        return Number(value || 0).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
         });
-      });
+      }
 
-      // Auth Handlers
+      function formatDateLabel(dateString) {
+        if (!dateString) return "Data não informada";
+
+        const date = new Date(`${dateString}T00:00:00`);
+        if (Number.isNaN(date.getTime())) return dateString;
+
+        return date.toLocaleDateString("pt-BR", {
+          weekday: "long",
+          day: "2-digit",
+          month: "long",
+        });
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function clearListeners() {
+        activeListeners.forEach((unsub) => {
+          if (typeof unsub === "function") unsub();
+        });
+        activeListeners = [];
+      }
+
       document
         .getElementById("btnLogin")
         .addEventListener("click", async () => {
-          const email = document.getElementById("adminEmail").value.trim();
-          const pass = document.getElementById("adminSenha").value;
+          const nome = document
+            .getElementById("loginNome")
+            .value.trim()
+            .toLowerCase();
+          const pin = document.getElementById("loginPin").value;
 
-          if (!email || !pass) {
-            showToast("Informe email e senha.", "warning");
+          if (!nome || !pin) {
+            notify("Preencha todos os campos", "danger");
             return;
           }
 
           try {
-            await signInWithEmailAndPassword(auth, email, pass);
-            showToast("Autenticação bem-sucedida", "success");
-          } catch (e) {
-            document.getElementById("loginMsg").innerText =
-              "Credenciais inválidas.";
-          }
-        });
+            const hashed = await hashPin(pin);
+            const snap = await get(ref(db, "users"));
+            const users = snap.val() || {};
 
-      document
-        .getElementById("btnLogout")
-        .addEventListener("click", () => signOut(auth));
+            for (const id in users) {
+              const dbName = String(users[id].name || "")
+                .trim()
+                .toLowerCase();
 
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          document.getElementById("loginView").classList.add("hidden");
-          document.getElementById("panelView").classList.remove("hidden");
-          document.getElementById("loggedAdminEmail").innerText = user.email;
-
-          if (!realtimeInitialized) {
-            realtimeInitialized = true;
-            initRealtimeSync();
-          }
-          lucide.createIcons();
-        } else {
-          document.getElementById("loginView").classList.remove("hidden");
-          document.getElementById("panelView").classList.add("hidden");
-          realtimeInitialized = false;
-        }
-      });
-
-      // Realtime Sync
-      function initRealtimeSync() {
-        onValue(ref(db, "users"), (snap) => {
-          const data = snap.val() || {};
-          const list = Object.entries(data).map(([id, v]) => ({ id, ...v }));
-          usersCache = list;
-
-          updateClientSelects(list);
-          renderClientes(list);
-          document.getElementById("statClientes").innerText = list.length;
-        });
-
-        onValue(ref(db, "itineraries"), (snap) => {
-          const data = snap.val() || {};
-          const list = Object.entries(data).map(([id, v]) => ({ id, ...v }));
-          renderRoteiro(list);
-
-          const total = list.length;
-          const done = list.filter((i) => i.status === "realizado").length;
-
-          document.getElementById("statRoteiro").innerText = total
-            ? Math.round((done / total) * 100) + "%"
-            : "0%";
-
-          document.getElementById("statPendentes").innerText = total - done;
-        });
-
-        onValue(ref(db, "financial"), (snap) => {
-          const data = snap.val() || {};
-          const list = Object.entries(data).map(([id, v]) => ({ id, ...v }));
-          renderFinanceiro(list);
-
-          const total = list.reduce(
-            (acc, curr) => acc + Number(curr.valor || 0),
-            0,
-          );
-
-          document.getElementById("statFinanceiro").innerText =
-            formatBRL(total);
-        });
-      }
-
-      // Roteiro CRUD
-      document
-        .getElementById("btnSaveRoteiro")
-        .addEventListener("click", async () => {
-          const button = document.getElementById("btnSaveRoteiro");
-
-          try {
-            const roteiroId = document.getElementById("roteiroId").value;
-            const clienteSelect = document.getElementById("roteiroCliente");
-            const selectedClienteIds = Array.from(
-              clienteSelect.selectedOptions,
-            ).map((option) => option.value);
-
-            const data = document.getElementById("roteiroData").value;
-            const horario = document.getElementById("roteiroHorario").value;
-            const atracao = document
-              .getElementById("roteiroAtracao")
-              .value.trim();
-            const observacao = document
-              .getElementById("roteiroObs")
-              .value.trim();
-            const endereco = document.getElementById("roteiroEnd").value.trim();
-
-            if (!selectedClienteIds.length || !data || !horario || !atracao) {
-              showToast(
-                "Selecione ao menos um cliente, além de data, horário e atração.",
-                "warning",
-              );
-              return;
+              if (dbName === nome && users[id].pinHash === hashed) {
+                userData = { id, ...users[id] };
+                sessionStorage.setItem(
+                  "zecureSession",
+                  JSON.stringify(userData),
+                );
+                startApp();
+                return;
+              }
             }
 
-            button.disabled = true;
-            button.innerText = "Salvando...";
-
-            const selectedUsers = usersCache.filter((user) =>
-              selectedClienteIds.includes(user.id),
-            );
-
-            if (!selectedUsers.length) {
-              showToast("Nenhum cliente válido encontrado.", "danger");
-              return;
-            }
-
-            const clienteIds = selectedUsers.map((user) => user.id);
-            const clienteNomes = selectedUsers.map(
-              (user) => user.name || "Sem nome",
-            );
-
-            const payload = {
-              clienteIds,
-              clienteNomes,
-              clienteId: clienteIds[0],
-              clienteNome: clienteNomes[0],
-              data,
-              horario,
-              atracao,
-              observacao,
-              endereco,
-              status: "pendente",
-              updatedAt: new Date().toISOString(),
-            };
-
-            if (roteiroId) {
-              await update(ref(db, `itineraries/${roteiroId}`), payload);
-              showToast("Roteiro atualizado com sucesso.", "success");
-            } else {
-              await set(push(ref(db, "itineraries")), {
-                ...payload,
-                createdAt: new Date().toISOString(),
-              });
-              showToast("Roteiro criado com sucesso.", "success");
-            }
-
-            resetRoteiroForm();
+            notify("Acesso negado", "danger");
           } catch (error) {
-            console.error("Erro ao salvar roteiro:", error);
-            showToast("Não foi possível salvar o roteiro.", "danger");
-          } finally {
-            button.disabled = false;
-            button.innerText = "Agendar Registro";
+            console.error("Erro no login:", error);
+            notify("Erro de conexão", "danger");
           }
         });
 
-      function resetRoteiroForm() {
-        document.getElementById("roteiroId").value = "";
+      const startApp = () => {
+        document.getElementById("loginView").classList.add("hidden");
+        document.getElementById("panelView").classList.remove("hidden");
+        document.getElementById("clientDisplayName").innerText =
+          userData?.name || "Cliente";
+        syncData();
+        lucide.createIcons();
+      };
 
-        const clienteSelect = document.getElementById("roteiroCliente");
-        Array.from(clienteSelect.options).forEach((option) => {
-          option.selected = false;
-        });
+      const syncData = () => {
+        clearListeners();
 
-        document.getElementById("roteiroData").value = "";
-        document.getElementById("roteiroHorario").value = "";
-        document.getElementById("roteiroAtracao").value = "";
-        document.getElementById("roteiroObs").value = "";
-        document.getElementById("roteiroEnd").value = "";
-      }
+        activeListeners.push(
+          onValue(ref(db, "itineraries"), (snap) => {
+            const list = Object.entries(snap.val() || {})
+              .map(([id, v]) => ({ id, ...v }))
+              .filter((i) => i.clienteId === userData.id);
+
+            renderRoteiro(list);
+          }),
+        );
+
+        activeListeners.push(
+          onValue(ref(db, "financial"), (snap) => {
+            const list = Object.entries(snap.val() || {})
+              .map(([id, v]) => ({ id, ...v }))
+              .filter((f) => f.clienteId === userData.id);
+
+            renderFinanceiro(list);
+          }),
+        );
+
+        activeListeners.push(
+          onValue(ref(db, "vouchers"), (snap) => {
+            const list = Object.entries(snap.val() || {})
+              .map(([id, v]) => ({ id, ...v }))
+              .filter((v) => v.clienteId === userData.id);
+
+            renderVouchers(list);
+          }),
+        );
+      };
 
       function renderRoteiro(list) {
         const container = document.getElementById("roteiroLista");
 
-        if (!container) {
-          console.warn("Elemento #roteiroLista não encontrado");
+        const pendentes = list.filter((i) => i.status === "pendente").length;
+        const concluidas = list.filter((i) => i.status === "realizado").length;
+
+        document.getElementById("countPendentes").innerText = pendentes;
+        document.getElementById("countConcluidas").innerText = concluidas;
+
+        if (!list.length) {
+          container.innerHTML =
+            '<div class="text-center py-5 text-muted">Roteiro vazio</div>';
           return;
         }
 
@@ -884,340 +648,203 @@
           ),
         );
 
-        container.innerHTML =
-          sorted
-            .map((i) => {
-              const nomes =
-                Array.isArray(i.clienteNomes) && i.clienteNomes.length
-                  ? i.clienteNomes.join(", ")
-                  : i.clienteNome || "-";
+        const groupedByDate = sorted.reduce((acc, item) => {
+          const key = item.data || "sem-data";
+          if (!acc[key]) acc[key] = [];
+          acc[key].push(item);
+          return acc;
+        }, {});
 
-              const badges =
-                Array.isArray(i.clienteNomes) && i.clienteNomes.length
-                  ? i.clienteNomes
-                      .map(
-                        (nome) =>
-                          `<span class="cliente-badge">${escapeHtml(nome)}</span>`,
-                      )
-                      .join("")
-                  : `<span class="cliente-badge">${escapeHtml(i.clienteNome || "-")}</span>`;
+        const orderedDates = Object.keys(groupedByDate).sort((a, b) =>
+          a.localeCompare(b),
+        );
 
-              return `
-              <div class="card-kpi d-flex justify-content-between align-items-start gap-3">
-                <div>
-                  <h6 class="fw-bold mb-1">${escapeHtml(i.atracao || "-")}</h6>
-                  <div class="small text-muted mb-2">
-                    ${escapeHtml(i.data || "-")} às ${escapeHtml(i.horario || "-")}
+        container.innerHTML = orderedDates
+          .map((dateKey) => {
+            const items = groupedByDate[dateKey];
+
+            const itemsHtml = items
+              .sort((a, b) =>
+                String(a.horario || "").localeCompare(String(b.horario || "")),
+              )
+              .map(
+                (i) => `
+                  <div class="timeline-item ${i.status === "realizado" ? "done" : ""}">
+                    <div class="card-zecure">
+                      <div class="d-flex justify-content-between align-items-start gap-3">
+                        <div class="flex-grow-1">
+                          <div class="timeline-time">${escapeHtml(i.horario || "Horário não informado")}</div>
+                          <h6 class="fw-bold mb-1">${escapeHtml(i.atracao || "Atração não informada")}</h6>
+                          <div class="timeline-address">${escapeHtml(i.endereco || "Local não definido")}</div>
+                          <div class="small text-muted">${escapeHtml(i.observacao || "Sem observações")}</div>
+                        </div>
+
+                        <div class="timeline-status-icon">
+                          ${
+                            i.status === "pendente"
+                              ? `<button class="btn btn-sm btn-dark rounded-pill" data-action="complete-task" data-id="${i.id}" type="button">Check</button>`
+                              : `<i data-lucide="check" class="text-success"></i>`
+                          }
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="mb-2">${badges}</div>
-                  <div class="small text-muted mb-1">${escapeHtml(i.endereco || "Sem endereço")}</div>
-                  <div class="small">${escapeHtml(i.observacao || "Sem observações")}</div>
-                </div>
+                `,
+              )
+              .join("");
 
-                <div class="text-end">
-                  <span class="status-pill ${i.status === "realizado" ? "bg-success-light" : "bg-pending"}">
-                    ${escapeHtml(i.status || "pendente")}
-                  </span>
-
-                  <div class="d-flex flex-wrap gap-2 mt-3 justify-content-end">
-                    <button class="btn btn-sm btn-outline-primary" data-action="edit-roteiro" data-id="${i.id}">
-                      Editar
-                    </button>
-                    <button class="btn btn-sm btn-outline-success" data-action="toggle-roteiro" data-id="${i.id}" data-status="${i.status || "pendente"}">
-                      ${i.status === "realizado" ? "Reabrir" : "Concluir"}
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger" data-action="delete-roteiro" data-id="${i.id}">
-                      Remover
-                    </button>
-                  </div>
+            return `
+              <div class="day-group">
+                <div class="day-header">
+                  <span>${escapeHtml(formatDateLabel(dateKey))}</span>
+                  <span class="day-badge">${items.length} ${
+                    items.length === 1 ? "atração" : "atrações"
+                  }</span>
                 </div>
+                ${itemsHtml}
               </div>
             `;
-            })
-            .join("") ||
-          '<div class="text-muted text-center py-5">Sem atividades agendadas</div>';
+          })
+          .join("");
+
+        lucide.createIcons();
       }
 
-      // Event Delegation para Roteiro
       document.addEventListener("click", async (event) => {
         const button = event.target.closest("[data-action]");
         if (!button) return;
 
-        const { action, id, status } = button.dataset;
+        const { action, id } = button.dataset;
 
-        try {
-          if (action === "edit-roteiro") {
-            const snap = await get(ref(db, `itineraries/${id}`));
-            const item = snap.val();
-            if (!item) {
-              showToast("Roteiro não encontrado.", "warning");
-              return;
-            }
-
-            document.getElementById("roteiroId").value = id;
-
-            const clienteSelect = document.getElementById("roteiroCliente");
-            const selectedIds = Array.isArray(item.clienteIds)
-              ? item.clienteIds
-              : item.clienteId
-                ? [item.clienteId]
-                : [];
-
-            Array.from(clienteSelect.options).forEach((option) => {
-              option.selected = selectedIds.includes(option.value);
-            });
-
-            document.getElementById("roteiroData").value = item.data || "";
-            document.getElementById("roteiroHorario").value =
-              item.horario || "";
-            document.getElementById("roteiroAtracao").value =
-              item.atracao || "";
-            document.getElementById("roteiroObs").value = item.observacao || "";
-            document.getElementById("roteiroEnd").value = item.endereco || "";
-
-            document.querySelector('[data-tab="tabRoteiro"]').click();
-            showToast("Roteiro carregado para edição.", "primary");
-          }
-
-          if (action === "toggle-roteiro") {
-            const nextStatus =
-              status === "realizado" ? "pendente" : "realizado";
+        if (action === "complete-task") {
+          try {
+            button.disabled = true;
+            button.innerText = "Salvando...";
 
             await update(ref(db, `itineraries/${id}`), {
-              status: nextStatus,
+              status: "realizado",
               updatedAt: new Date().toISOString(),
             });
 
-            showToast(`Status alterado para ${nextStatus}.`, "success");
+            notify("Atividade concluída", "success");
+          } catch (error) {
+            console.error("Erro ao concluir atividade:", error);
+            notify("Não foi possível concluir a atividade", "danger");
+            button.disabled = false;
+            button.innerText = "Check";
           }
-
-          if (action === "delete-roteiro") {
-            if (!confirm("Deseja remover este roteiro?")) return;
-
-            await remove(ref(db, `itineraries/${id}`));
-            showToast("Roteiro removido com sucesso.", "success");
-          }
-        } catch (error) {
-          console.error("Erro na ação do roteiro:", error);
-          showToast("Não foi possível executar a ação.", "danger");
         }
       });
 
-      // Clientes CRUD
       document
-        .getElementById("btnSaveCliente")
+        .getElementById("btnSaveFin")
         .addEventListener("click", async () => {
+          const desc = document.getElementById("finDesc").value.trim();
+          const valor = Number(document.getElementById("finValor").value);
+
+          if (!desc || !valor) {
+            notify("Dados incompletos", "warning");
+            return;
+          }
+
           try {
-            const id = document.getElementById("clienteId").value;
-            const nome = document.getElementById("clienteNome").value.trim();
-            const pin = document.getElementById("clientePin").value.trim();
+            await set(push(ref(db, "financial")), {
+              clienteId: userData.id,
+              clienteNome: userData.name,
+              descricao: desc,
+              valor,
+              data: new Date().toISOString(),
+              origem: "cliente",
+            });
 
-            if (!nome) {
-              showToast("Informe o nome do cliente.", "warning");
-              return;
-            }
-
-            if (pin && !/^\d{4,6}$/.test(pin)) {
-              showToast("O PIN deve ter entre 4 e 6 dígitos.", "warning");
-              return;
-            }
-
-            const payload = {
-              name: nome,
-              role: document.getElementById("clienteRole").value,
-              permissions: {
-                roteiro: document.getElementById("p_rot").checked,
-                financeiro: document.getElementById("p_fin").checked,
-                vouchers: document.getElementById("p_vou").checked,
-              },
-              updatedAt: new Date().toISOString(),
-            };
-
-            if (pin) {
-              payload.pinHash = await hashPin(pin);
-            }
-
-            if (id) {
-              await update(ref(db, `users/${id}`), payload);
-              showToast("Cliente atualizado com sucesso.", "success");
-            } else {
-              await set(push(ref(db, "users")), {
-                ...payload,
-                createdAt: new Date().toISOString(),
-              });
-              showToast("Cliente criado com sucesso.", "success");
-            }
-
-            resetClienteForm();
-          } catch (e) {
-            console.error("Erro ao salvar cliente:", e);
-            showToast("Não foi possível salvar o cliente.", "danger");
+            notify("Gasto registrado", "success");
+            document.getElementById("finDesc").value = "";
+            document.getElementById("finValor").value = "";
+          } catch (error) {
+            console.error("Erro ao registrar gasto:", error);
+            notify("Não foi possível registrar o gasto", "danger");
           }
         });
 
-      function resetClienteForm() {
-        document.getElementById("clienteId").value = "";
-        document.getElementById("clienteNome").value = "";
-        document.getElementById("clientePin").value = "";
-        document.getElementById("clienteRole").value = "cliente";
-        document.getElementById("p_rot").checked = true;
-        document.getElementById("p_fin").checked = true;
-        document.getElementById("p_vou").checked = true;
+      function renderFinanceiro(list) {
+        const total = list.reduce(
+          (acc, curr) => acc + Number(curr.valor || 0),
+          0,
+        );
+
+        document.getElementById("totalGastos").innerText =
+          formatCurrencyBRL(total);
+
+        const sorted = [...list].sort((a, b) =>
+          String(b.data || "").localeCompare(String(a.data || "")),
+        );
+
+        document.getElementById("finCards").innerHTML =
+          sorted
+            .map(
+              (f) => `
+                <div class="card-zecure mb-2 d-flex justify-content-between align-items-center gap-3">
+                  <div class="small fw-bold">${escapeHtml(f.descricao || "-")}</div>
+                  <div class="text-success fw-bold">${formatCurrencyBRL(f.valor || 0)}</div>
+                </div>
+              `,
+            )
+            .join("") ||
+          '<div class="text-center py-4 text-muted">Nenhum gasto registrado</div>';
       }
 
-      function renderClientes(list) {
-        const tbody = document.getElementById("clientesTabela");
+      function renderVouchers(list) {
+        const container = document.getElementById("vouLista");
 
         if (!list.length) {
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="3" class="text-muted text-center py-4">Nenhum cliente cadastrado.</td>
-            </tr>
-          `;
+          container.innerHTML =
+            '<div class="col-12"><div class="text-center py-4 text-muted">Nenhum voucher disponível</div></div>';
           return;
         }
 
-        tbody.innerHTML = list
-          .map((c) => {
-            const perms = [
-              c.permissions?.roteiro ? "Roteiro" : null,
-              c.permissions?.financeiro ? "Financeiro" : null,
-              c.permissions?.vouchers ? "Vouchers" : null,
-            ]
-              .filter(Boolean)
-              .join(", ");
+        const sorted = [...list].sort((a, b) =>
+          String(b.createdAt || "").localeCompare(String(a.createdAt || "")),
+        );
+
+        container.innerHTML = sorted
+          .map((v) => {
+            const fileUrl = v.url || "#";
+            const isImage = String(v.contentType || "").startsWith("image/");
 
             return `
-              <tr>
-                <td>${escapeHtml(c.name || "-")}</td>
-                <td><span class="badge bg-light text-dark border">${escapeHtml(c.role || "-")}</span></td>
-                <td>
-                  <button class="btn btn-sm btn-outline-primary me-1" data-action="edit-client" data-id="${c.id}">Editar</button>
-                  <button class="btn btn-sm btn-outline-danger" data-action="delete-client" data-id="${c.id}">Remover</button>
-                </td>
-              </tr>
+              <div class="col-12 col-md-6">
+                <div class="card-zecure h-100">
+                  ${
+                    isImage
+                      ? `<img src="${fileUrl}" alt="Voucher" class="img-fluid rounded-4 mb-3" style="max-height:220px; object-fit:cover; width:100%;">`
+                      : `<div class="border rounded-4 mb-3 d-flex align-items-center justify-content-center text-muted" style="height:220px;">Documento disponível</div>`
+                  }
+                  <div class="voucher-card-title mb-1">${escapeHtml(v.atracao || "Voucher")}</div>
+                  <div class="small text-muted mb-3">${escapeHtml(v.data || "")}</div>
+                  <a href="${fileUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark w-100">
+                    Ver documento
+                  </a>
+                </div>
+              </div>
             `;
           })
           .join("");
       }
 
-      // Event Delegation para Clientes
-      document.addEventListener("click", async (event) => {
-        const button = event.target.closest("[data-action]");
-        if (!button) return;
-
-        const { action, id } = button.dataset;
-
-        if (action === "edit-client") {
-          const cliente = usersCache.find((u) => u.id === id);
-          if (!cliente) return;
-
-          document.getElementById("clienteId").value = cliente.id;
-          document.getElementById("clienteNome").value = cliente.name || "";
-          document.getElementById("clientePin").value = "";
-          document.getElementById("clienteRole").value =
-            cliente.role || "cliente";
-          document.getElementById("p_rot").checked =
-            !!cliente.permissions?.roteiro;
-          document.getElementById("p_fin").checked =
-            !!cliente.permissions?.financeiro;
-          document.getElementById("p_vou").checked =
-            !!cliente.permissions?.vouchers;
-
-          document.querySelector('[data-tab="tabClientes"]').click();
-        }
-
-        if (action === "delete-client") {
-          if (!confirm("Remover este cliente?")) return;
-
-          try {
-            await remove(ref(db, `users/${id}`));
-            showToast("Cliente removido com sucesso.", "success");
-          } catch (e) {
-            console.error("Erro ao remover cliente:", e);
-            showToast("Não foi possível remover o cliente.", "danger");
-          }
-        }
+      document.getElementById("btnLogout").addEventListener("click", () => {
+        clearListeners();
+        sessionStorage.clear();
+        location.reload();
       });
 
-      function updateClientSelects(list) {
-        const roteiroOptions = list
-          .map(
-            (c) =>
-              `<option value="${escapeHtml(c.id)}">${escapeHtml(
-                c.name || "Sem nome",
-              )}</option>`,
-          )
-          .join("");
-
-        const voucherOptions = [
-          `<option value="">Selecionar Cliente...</option>`,
-          ...list.map(
-            (c) =>
-              `<option value="${escapeHtml(c.id)}">${escapeHtml(
-                c.name || "Sem nome",
-              )}</option>`,
-          ),
-        ].join("");
-
-        document.getElementById("roteiroCliente").innerHTML = roteiroOptions;
-        document.getElementById("vouCliente").innerHTML = voucherOptions;
-      }
-
-      function renderFinanceiro(list) {
-        const tbody = document.getElementById("finTabela");
-
-        if (!list.length) {
-          tbody.innerHTML = `
-            <tr>
-              <td colspan="5" class="text-center text-muted py-4">Nenhum lançamento financeiro.</td>
-            </tr>
-          `;
-          return;
+      window.addEventListener("load", () => {
+        const session = sessionStorage.getItem("zecureSession");
+        if (session) {
+          userData = JSON.parse(session);
+          startApp();
         }
-
-        tbody.innerHTML = list
-          .sort((a, b) => (b.data || "").localeCompare(a.data || ""))
-          .map(
-            (f) => `
-              <tr>
-                <td>${escapeHtml(f.data || "-")}</td>
-                <td>${escapeHtml(f.clienteNome || "-")}</td>
-                <td>${escapeHtml(f.descricao || "-")}</td>
-                <td class="fw-bold">${formatBRL(f.valor || 0)}</td>
-                <td>
-                  <button class="btn btn-sm btn-danger" data-action="delete-fin" data-id="${f.id}">
-                    Remover
-                  </button>
-                </td>
-              </tr>
-            `,
-          )
-          .join("");
-      }
-
-      // Event Delegation para Financeiro
-      document.addEventListener("click", async (event) => {
-        const button = event.target.closest("[data-action]");
-        if (!button) return;
-
-        const { action, id } = button.dataset;
-
-        if (action === "delete-fin") {
-          if (!confirm("Remover este lançamento financeiro?")) return;
-
-          try {
-            await remove(ref(db, `financial/${id}`));
-            showToast("Lançamento removido com sucesso.", "success");
-          } catch (e) {
-            console.error("Erro ao remover financeiro:", e);
-            showToast("Não foi possível remover o lançamento.", "danger");
-          }
-        }
+        lucide.createIcons();
       });
-
-      // Inicializar Ícones
-      lucide.createIcons();
     </script>
   </body>
 </html>
