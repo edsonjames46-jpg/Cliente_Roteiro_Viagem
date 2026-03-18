@@ -1,0 +1,850 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Roteiro de Viagem - Gramado</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      :root {
+        --zecure-navy: #0f172a;
+        --zecure-blue: #2563eb;
+        --bg-app: #f1f5f9;
+        --card-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        --radius-xl: 20px;
+        --border-soft: #e2e8f0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-app);
+        color: #1e293b;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .app-header {
+        background: var(--zecure-navy);
+        color: white;
+        padding: 2rem 1rem 4rem;
+        border-radius: 0 0 30px 30px;
+        margin-bottom: -2.5rem;
+      }
+
+      .card-zecure {
+        background: white;
+        border: none;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--card-shadow);
+        padding: 1.25rem;
+        transition: transform 0.2s ease;
+      }
+
+      .summary-value {
+        font-size: 1.75rem;
+        font-weight: 800;
+        line-height: 1;
+      }
+
+      .nav-segmented {
+        background: #e2e8f0;
+        padding: 4px;
+        border-radius: 14px;
+        display: flex;
+        gap: 4px;
+        overflow-x: auto;
+      }
+
+      .nav-segmented .nav-link {
+        flex: 1;
+        border: none;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-weight: 600;
+        color: #64748b;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+        white-space: nowrap;
+        min-width: fit-content;
+      }
+
+      .nav-segmented .nav-link.active {
+        background: white;
+        color: var(--zecure-navy);
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      }
+
+      .timeline-item {
+        position: relative;
+        padding-left: 1.5rem;
+        border-left: 2px solid #e2e8f0;
+        padding-bottom: 1rem;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -7px;
+        top: 0;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--zecure-blue);
+        border: 2px solid white;
+      }
+
+      .timeline-item.done {
+        border-left-color: #22c55e;
+      }
+
+      .timeline-item.done::before {
+        background: #22c55e;
+      }
+
+      .login-shell {
+        position: relative;
+        min-height: 100dvh;
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+          linear-gradient(rgba(15, 23, 42, 0.72), rgba(15, 23, 42, 0.72)),
+          url("gramado.png") center center / cover no-repeat;
+        padding: 24px 16px;
+      }
+
+      .login-card {
+        width: 100%;
+        max-width: 420px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 28px;
+        padding: 2rem;
+        color: white;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+      }
+
+      .day-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .day-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        padding: 0.85rem 1rem;
+        background: #e2e8f0;
+        border-radius: 14px;
+        font-weight: 700;
+        color: #0f172a;
+      }
+
+      .day-badge {
+        background: var(--zecure-navy);
+        color: white;
+        border-radius: 999px;
+        padding: 0.3rem 0.7rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .timeline-time {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #2563eb;
+        margin-bottom: 0.35rem;
+      }
+
+      .timeline-address {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 0.4rem;
+        word-break: break-word;
+      }
+
+      .timeline-status-icon {
+        flex-shrink: 0;
+      }
+
+      .voucher-card-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+      }
+
+      .toast-container {
+        z-index: 2000;
+      }
+
+      .login-card .form-control {
+        min-height: 48px;
+      }
+
+      .btn {
+        min-height: 44px;
+      }
+
+      @media (max-width: 991.98px) {
+        .app-header {
+          padding: 1.5rem 1rem 3.5rem;
+        }
+
+        .summary-value {
+          font-size: 1.45rem;
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        .app-header {
+          border-radius: 0 0 24px 24px;
+          margin-bottom: -2rem;
+        }
+
+        .card-zecure {
+          padding: 1rem;
+          border-radius: 16px;
+        }
+
+        .summary-value {
+          font-size: 1.25rem;
+        }
+
+        .timeline-item {
+          padding-left: 1rem;
+        }
+
+        .timeline-item::before {
+          left: -6px;
+          width: 10px;
+          height: 10px;
+        }
+
+        .day-header {
+          padding: 0.75rem 0.9rem;
+        }
+
+        .login-card {
+          padding: 1.5rem;
+          border-radius: 22px;
+        }
+
+        .toast-container {
+          left: 0 !important;
+          right: 0 !important;
+          top: 0 !important;
+          transform: none !important;
+          padding-left: 12px !important;
+          padding-right: 12px !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .summary-value {
+          font-size: 1.1rem;
+        }
+
+        .nav-segmented .nav-link {
+          font-size: 0.8rem;
+          padding: 8px 10px;
+        }
+
+        .timeline-time {
+          font-size: 0.75rem;
+        }
+
+        .timeline-address,
+        .small {
+          font-size: 0.8rem !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div
+      class="toast-container position-fixed top-0 start-50 translate-middle-x p-3"
+    ></div>
+
+    <div id="loginView" class="login-shell">
+      <div class="login-card text-center">
+        <div class="mb-4">
+          <i
+            data-lucide="lock"
+            class="text-primary"
+            style="width: 48px; height: 48px"
+          ></i>
+        </div>
+        <h2 class="fw-bold mb-1">Guia Turismo - JG</h2>
+        <p class="text-white-50 small mb-4">Portal de Acesso Seguro</p>
+
+        <div class="text-start mb-3">
+          <label class="form-label small fw-bold text-white-50">
+            IDENTIFICADOR
+          </label>
+          <input
+            type="text"
+            id="loginNome"
+            class="form-control form-control-lg bg-dark text-white border-0"
+            placeholder="Nome de usuário"
+          />
+        </div>
+
+        <div class="text-start mb-4">
+          <label class="form-label small fw-bold text-white-50">
+            PIN DE SEGURANÇA
+          </label>
+          <input
+            type="password"
+            id="loginPin"
+            class="form-control form-control-lg bg-dark text-white border-0"
+            inputmode="numeric"
+          />
+        </div>
+
+        <button class="btn btn-primary w-100 py-3 fw-bold" id="btnLogin">
+          Acessar Painel
+        </button>
+        <div id="loginMsg" class="text-danger mt-3 small"></div>
+      </div>
+    </div>
+
+    <div id="panelView" class="hidden">
+      <header class="app-header">
+        <div class="container">
+          <div
+            class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-3"
+          >
+            <div>
+              <p class="text-white-50 small mb-0">Gramado - City</p>
+              <h1 class="h4 fw-bold mb-0" id="clientDisplayName">
+                Carregando...
+              </h1>
+            </div>
+            <button
+              class="btn btn-sm btn-outline-light rounded-pill px-3"
+              id="btnLogout"
+            >
+              Sair
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="container">
+        <div class="row g-3 mb-4">
+          <div class="col-4">
+            <div class="card-zecure text-center h-100">
+              <div class="text-muted small fw-bold mb-1">PENDENTE</div>
+              <div class="summary-value text-warning" id="countPendentes">
+                0
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card-zecure text-center h-100">
+              <div class="text-muted small fw-bold mb-1">OK</div>
+              <div class="summary-value text-success" id="countConcluidas">
+                0
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card-zecure text-center bg-dark text-white h-100">
+              <div class="text-white-50 small fw-bold mb-1">TOTAL</div>
+              <div class="summary-value" id="totalGastos">R$ 0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-segmented mb-4" role="tablist">
+          <button
+            class="nav-link active"
+            data-bs-toggle="tab"
+            data-bs-target="#tabRoteiro"
+            type="button"
+          >
+            Roteiro
+          </button>
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#tabFinanceiro"
+            type="button"
+          >
+            Financeiro
+          </button>
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#tabVouchers"
+            type="button"
+          >
+            Vouchers
+          </button>
+        </div>
+
+        <div class="tab-content pb-4">
+          <div class="tab-pane fade show active" id="tabRoteiro">
+            <div id="roteiroLista" class="ps-1 ps-md-2"></div>
+          </div>
+
+          <div class="tab-pane fade" id="tabFinanceiro">
+            <div class="card-zecure mb-4">
+              <h6 class="fw-bold mb-3">Lançamento de Despesa</h6>
+              <div class="row g-2">
+                <div class="col-12">
+                  <input
+                    type="text"
+                    id="finDesc"
+                    class="form-control"
+                    placeholder="Descrição do gasto"
+                  />
+                </div>
+                <div class="col-7">
+                  <input
+                    type="number"
+                    id="finValor"
+                    class="form-control"
+                    placeholder="Valor R$"
+                  />
+                </div>
+                <div class="col-5">
+                  <button class="btn btn-primary w-100" id="btnSaveFin">
+                    Lançar
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="finCards"></div>
+          </div>
+
+          <div class="tab-pane fade" id="tabVouchers">
+            <div id="vouLista" class="row g-3"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        push,
+        set,
+        update,
+        onValue,
+        get,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyCh7MttxSXI8hBuL1yhCqIsx_e2yXP0_HU",
+        authDomain: "roteiro-de-viagem-31d80.firebaseapp.com",
+        databaseURL:
+          "https://roteiro-de-viagem-31d80-default-rtdb.firebaseio.com",
+        projectId: "roteiro-de-viagem-31d80",
+        storageBucket: "roteiro-de-viagem-31d80.firebasestorage.app",
+        messagingSenderId: "362863845896",
+        appId: "1:362863845896:web:73ea6a6493f93440f867bd",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      let userData = null;
+      let activeListeners = [];
+
+      const notify = (msg, type = "primary") => {
+        const id = Date.now();
+        const html = `<div id="toast-${id}" class="toast align-items-center text-white bg-${type} border-0 show mb-2" role="alert"><div class="d-flex"><div class="toast-body fw-bold">${msg}</div></div></div>`;
+        document
+          .querySelector(".toast-container")
+          .insertAdjacentHTML("beforeend", html);
+        setTimeout(() => {
+          document.getElementById(`toast-${id}`)?.remove();
+        }, 3000);
+      };
+
+      const hashPin = async (pin) => {
+        const msgUint8 = new TextEncoder().encode(String(pin));
+        const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
+        return Array.from(new Uint8Array(hashBuffer))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      };
+
+      function formatCurrencyBRL(value) {
+        return Number(value || 0).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
+      }
+
+      function formatDateLabel(dateString) {
+        if (!dateString) return "Data não informada";
+
+        const date = new Date(`${dateString}T00:00:00`);
+        if (Number.isNaN(date.getTime())) return dateString;
+
+        return date.toLocaleDateString("pt-BR", {
+          weekday: "long",
+          day: "2-digit",
+          month: "long",
+        });
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function clearListeners() {
+        activeListeners.forEach((unsub) => {
+          if (typeof unsub === "function") unsub();
+        });
+        activeListeners = [];
+      }
+
+      document
+        .getElementById("btnLogin")
+        .addEventListener("click", async () => {
+          const nome = document
+            .getElementById("loginNome")
+            .value.trim()
+            .toLowerCase();
+          const pin = document.getElementById("loginPin").value;
+
+          if (!nome || !pin) {
+            notify("Preencha todos os campos", "danger");
+            return;
+          }
+
+          try {
+            const hashed = await hashPin(pin);
+            const snap = await get(ref(db, "users"));
+            const users = snap.val() || {};
+
+            for (const id in users) {
+              const dbName = String(users[id].name || "")
+                .trim()
+                .toLowerCase();
+
+              if (dbName === nome && users[id].pinHash === hashed) {
+                userData = { id, ...users[id] };
+                sessionStorage.setItem(
+                  "zecureSession",
+                  JSON.stringify(userData),
+                );
+                startApp();
+                return;
+              }
+            }
+
+            notify("Acesso negado", "danger");
+          } catch (error) {
+            console.error("Erro no login:", error);
+            notify("Erro de conexão", "danger");
+          }
+        });
+
+      const startApp = () => {
+        document.getElementById("loginView").classList.add("hidden");
+        document.getElementById("panelView").classList.remove("hidden");
+        document.getElementById("clientDisplayName").innerText =
+          userData?.name || "Cliente";
+        syncData();
+        lucide.createIcons();
+      };
+
+      const syncData = () => {
+        clearListeners();
+
+        activeListeners.push(
+          onValue(ref(db, "itineraries"), (snap) => {
+            const list = Object.entries(snap.val() || {})
+              .map(([id, v]) => ({ id, ...v }))
+              .filter((i) => i.clienteId === userData.id);
+
+            renderRoteiro(list);
+          }),
+        );
+
+        activeListeners.push(
+          onValue(ref(db, "financial"), (snap) => {
+            const list = Object.entries(snap.val() || {})
+              .map(([id, v]) => ({ id, ...v }))
+              .filter((f) => f.clienteId === userData.id);
+
+            renderFinanceiro(list);
+          }),
+        );
+
+        activeListeners.push(
+          onValue(ref(db, "vouchers"), (snap) => {
+            const list = Object.entries(snap.val() || {})
+              .map(([id, v]) => ({ id, ...v }))
+              .filter((v) => v.clienteId === userData.id);
+
+            renderVouchers(list);
+          }),
+        );
+      };
+
+      function renderRoteiro(list) {
+        const container = document.getElementById("roteiroLista");
+
+        const pendentes = list.filter((i) => i.status === "pendente").length;
+        const concluidas = list.filter((i) => i.status === "realizado").length;
+
+        document.getElementById("countPendentes").innerText = pendentes;
+        document.getElementById("countConcluidas").innerText = concluidas;
+
+        if (!list.length) {
+          container.innerHTML =
+            '<div class="text-center py-5 text-muted">Roteiro vazio</div>';
+          return;
+        }
+
+        const sorted = [...list].sort((a, b) =>
+          `${a.data || ""} ${a.horario || ""}`.localeCompare(
+            `${b.data || ""} ${b.horario || ""}`,
+          ),
+        );
+
+        const groupedByDate = sorted.reduce((acc, item) => {
+          const key = item.data || "sem-data";
+          if (!acc[key]) acc[key] = [];
+          acc[key].push(item);
+          return acc;
+        }, {});
+
+        const orderedDates = Object.keys(groupedByDate).sort((a, b) =>
+          a.localeCompare(b),
+        );
+
+        container.innerHTML = orderedDates
+          .map((dateKey) => {
+            const items = groupedByDate[dateKey];
+
+            const itemsHtml = items
+              .sort((a, b) =>
+                String(a.horario || "").localeCompare(String(b.horario || "")),
+              )
+              .map(
+                (i) => `
+                  <div class="timeline-item ${i.status === "realizado" ? "done" : ""}">
+                    <div class="card-zecure">
+                      <div class="d-flex justify-content-between align-items-start gap-3">
+                        <div class="flex-grow-1">
+                          <div class="timeline-time">${escapeHtml(i.horario || "Horário não informado")}</div>
+                          <h6 class="fw-bold mb-1">${escapeHtml(i.atracao || "Atração não informada")}</h6>
+                          <div class="timeline-address">${escapeHtml(i.endereco || "Local não definido")}</div>
+                          <div class="small text-muted">${escapeHtml(i.observacao || "Sem observações")}</div>
+                        </div>
+
+                        <div class="timeline-status-icon">
+                          ${
+                            i.status === "pendente"
+                              ? `<button class="btn btn-sm btn-dark rounded-pill" data-action="complete-task" data-id="${i.id}" type="button">Check</button>`
+                              : `<i data-lucide="check" class="text-success"></i>`
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `,
+              )
+              .join("");
+
+            return `
+              <div class="day-group">
+                <div class="day-header">
+                  <span>${escapeHtml(formatDateLabel(dateKey))}</span>
+                  <span class="day-badge">${items.length} ${
+                    items.length === 1 ? "atração" : "atrações"
+                  }</span>
+                </div>
+                ${itemsHtml}
+              </div>
+            `;
+          })
+          .join("");
+
+        lucide.createIcons();
+      }
+
+      document.addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-action]");
+        if (!button) return;
+
+        const { action, id } = button.dataset;
+
+        if (action === "complete-task") {
+          try {
+            button.disabled = true;
+            button.innerText = "Salvando...";
+
+            await update(ref(db, `itineraries/${id}`), {
+              status: "realizado",
+              updatedAt: new Date().toISOString(),
+            });
+
+            notify("Atividade concluída", "success");
+          } catch (error) {
+            console.error("Erro ao concluir atividade:", error);
+            notify("Não foi possível concluir a atividade", "danger");
+            button.disabled = false;
+            button.innerText = "Check";
+          }
+        }
+      });
+
+      document
+        .getElementById("btnSaveFin")
+        .addEventListener("click", async () => {
+          const desc = document.getElementById("finDesc").value.trim();
+          const valor = Number(document.getElementById("finValor").value);
+
+          if (!desc || !valor) {
+            notify("Dados incompletos", "warning");
+            return;
+          }
+
+          try {
+            await set(push(ref(db, "financial")), {
+              clienteId: userData.id,
+              clienteNome: userData.name,
+              descricao: desc,
+              valor,
+              data: new Date().toISOString(),
+              origem: "cliente",
+            });
+
+            notify("Gasto registrado", "success");
+            document.getElementById("finDesc").value = "";
+            document.getElementById("finValor").value = "";
+          } catch (error) {
+            console.error("Erro ao registrar gasto:", error);
+            notify("Não foi possível registrar o gasto", "danger");
+          }
+        });
+
+      function renderFinanceiro(list) {
+        const total = list.reduce(
+          (acc, curr) => acc + Number(curr.valor || 0),
+          0,
+        );
+
+        document.getElementById("totalGastos").innerText =
+          formatCurrencyBRL(total);
+
+        const sorted = [...list].sort((a, b) =>
+          String(b.data || "").localeCompare(String(a.data || "")),
+        );
+
+        document.getElementById("finCards").innerHTML =
+          sorted
+            .map(
+              (f) => `
+                <div class="card-zecure mb-2 d-flex justify-content-between align-items-center gap-3">
+                  <div class="small fw-bold">${escapeHtml(f.descricao || "-")}</div>
+                  <div class="text-success fw-bold">${formatCurrencyBRL(f.valor || 0)}</div>
+                </div>
+              `,
+            )
+            .join("") ||
+          '<div class="text-center py-4 text-muted">Nenhum gasto registrado</div>';
+      }
+
+      function renderVouchers(list) {
+        const container = document.getElementById("vouLista");
+
+        if (!list.length) {
+          container.innerHTML =
+            '<div class="col-12"><div class="text-center py-4 text-muted">Nenhum voucher disponível</div></div>';
+          return;
+        }
+
+        const sorted = [...list].sort((a, b) =>
+          String(b.createdAt || "").localeCompare(String(a.createdAt || "")),
+        );
+
+        container.innerHTML = sorted
+          .map((v) => {
+            const fileUrl = v.url || "#";
+            const isImage = String(v.contentType || "").startsWith("image/");
+
+            return `
+              <div class="col-12 col-md-6">
+                <div class="card-zecure h-100">
+                  ${
+                    isImage
+                      ? `<img src="${fileUrl}" alt="Voucher" class="img-fluid rounded-4 mb-3" style="max-height:220px; object-fit:cover; width:100%;">`
+                      : `<div class="border rounded-4 mb-3 d-flex align-items-center justify-content-center text-muted" style="height:220px;">Documento disponível</div>`
+                  }
+                  <div class="voucher-card-title mb-1">${escapeHtml(v.atracao || "Voucher")}</div>
+                  <div class="small text-muted mb-3">${escapeHtml(v.data || "")}</div>
+                  <a href="${fileUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark w-100">
+                    Ver documento
+                  </a>
+                </div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      document.getElementById("btnLogout").addEventListener("click", () => {
+        clearListeners();
+        sessionStorage.clear();
+        location.reload();
+      });
+
+      window.addEventListener("load", () => {
+        const session = sessionStorage.getItem("zecureSession");
+        if (session) {
+          userData = JSON.parse(session);
+          startApp();
+        }
+        lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>
