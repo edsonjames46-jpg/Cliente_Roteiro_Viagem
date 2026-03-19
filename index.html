@@ -22,10 +22,9 @@
       :root {
         --zecure-navy: #0f172a;
         --zecure-blue: #2563eb;
-        --bg-app: #f1f5f9;
         --card-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
         --radius-xl: 20px;
-        --border-soft: #e2e8f0;
+        --star-color: #f59e0b;
       }
 
       * {
@@ -36,34 +35,63 @@
       body {
         margin: 0;
         padding: 0;
+        width: 100%;
+        overflow-x: hidden;
       }
 
       body {
+        min-width: 320px;
         font-family: "Inter", sans-serif;
-        background-color: var(--bg-app);
         color: #1e293b;
         -webkit-font-smoothing: antialiased;
+        background:
+          linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.45)),
+          url("https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=80")
+            center center / cover no-repeat fixed;
       }
 
       .hidden {
         display: none !important;
       }
 
+      .container {
+        width: 100%;
+        max-width: 1180px;
+      }
+
+      img,
+      iframe,
+      video,
+      canvas,
+      svg {
+        max-width: 100%;
+        display: block;
+      }
+
+      #panelView {
+        min-height: 100vh;
+        background:
+          linear-gradient(rgba(241, 245, 249, 0.88), rgba(241, 245, 249, 0.88)),
+          url("https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1600&q=80")
+            center center / cover no-repeat fixed;
+      }
+
       .app-header {
-        background: var(--zecure-navy);
+        background: rgba(15, 23, 42, 0.92);
         color: white;
         padding: 2rem 1rem 4rem;
         border-radius: 0 0 30px 30px;
         margin-bottom: -2.5rem;
+        backdrop-filter: blur(4px);
       }
 
       .card-zecure {
-        background: white;
+        background: rgba(255, 255, 255, 0.96);
         border: none;
         border-radius: var(--radius-xl);
         box-shadow: var(--card-shadow);
         padding: 1.25rem;
-        transition: transform 0.2s ease;
+        backdrop-filter: blur(4px);
       }
 
       .summary-value {
@@ -73,12 +101,14 @@
       }
 
       .nav-segmented {
-        background: #e2e8f0;
+        background: rgba(226, 232, 240, 0.9);
         padding: 4px;
         border-radius: 14px;
         display: flex;
         gap: 4px;
         overflow-x: auto;
+        backdrop-filter: blur(4px);
+        scrollbar-width: thin;
       }
 
       .nav-segmented .nav-link {
@@ -136,7 +166,8 @@
         justify-content: center;
         background:
           linear-gradient(rgba(15, 23, 42, 0.72), rgba(15, 23, 42, 0.72)),
-          url("gramado.png") center center / cover no-repeat;
+          url("gramado.png")
+            center center / cover no-repeat;
         padding: 24px 16px;
       }
 
@@ -165,7 +196,7 @@
         flex-wrap: wrap;
         margin-bottom: 1rem;
         padding: 0.85rem 1rem;
-        background: #e2e8f0;
+        background: rgba(226, 232, 240, 0.95);
         border-radius: 14px;
         font-weight: 700;
         color: #0f172a;
@@ -178,6 +209,7 @@
         padding: 0.3rem 0.7rem;
         font-size: 0.75rem;
         font-weight: 700;
+        white-space: nowrap;
       }
 
       .timeline-time {
@@ -201,6 +233,7 @@
       .voucher-card-title {
         font-size: 0.95rem;
         font-weight: 700;
+        word-break: break-word;
       }
 
       .toast-container {
@@ -215,33 +248,145 @@
         min-height: 44px;
       }
 
-      @media (max-width: 991.98px) {
-        .app-header {
-          padding: 1.5rem 1rem 3.5rem;
-        }
-
-        .summary-value {
-          font-size: 1.45rem;
-        }
+      .star-rating {
+        display: flex;
+        gap: 6px;
+        margin-top: 0.75rem;
+        margin-bottom: 0.5rem;
       }
 
-      @media (max-width: 767.98px) {
+      .star-btn {
+        background: transparent;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        line-height: 1;
+        font-size: 1.6rem;
+        color: #cbd5e1;
+      }
+
+      .star-btn.active {
+        color: var(--star-color);
+      }
+
+      .rating-box {
+        margin-top: 1rem;
+        padding: 1rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        background: #f8fafc;
+      }
+
+      .rating-note {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #0f172a;
+      }
+
+      .voucher-preview-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 16px;
+      }
+
+      iframe {
+        width: 100%;
+        min-height: 220px;
+        border: 0;
+        border-radius: 16px;
+        background: white;
+      }
+
+      .toggle-day-btn {
+        min-height: 36px;
+        padding: 0.35rem 0.8rem;
+        border-radius: 999px;
+        border: none;
+        background: var(--zecure-navy);
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        white-space: nowrap;
+      }
+
+      .day-items-hidden {
+        display: none;
+      }
+
+      textarea.form-control {
+        resize: vertical;
+        min-height: 96px;
+      }
+
+      @media (max-width: 991.98px) {
+        .container {
+          max-width: 100%;
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+
         .app-header {
-          border-radius: 0 0 24px 24px;
-          margin-bottom: -2rem;
+          padding: 1.4rem 1rem 3.2rem;
         }
 
         .card-zecure {
           padding: 1rem;
+        }
+
+        .voucher-preview-img,
+        iframe {
+          height: 210px;
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        body {
+          font-size: 14px;
+        }
+
+        .container {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+
+        .app-header {
+          padding: 1.2rem 0.9rem 2.8rem;
+          border-radius: 0 0 20px 20px;
+        }
+
+        .card-zecure {
+          padding: 0.95rem;
           border-radius: 16px;
         }
 
         .summary-value {
-          font-size: 1.25rem;
+          font-size: 1.1rem;
+        }
+
+        .nav-segmented .nav-link {
+          flex: 0 0 auto;
+          min-width: max-content;
+          font-size: 0.78rem;
+          padding: 8px 12px;
+        }
+
+        .day-header {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.75rem;
+        }
+
+        .toggle-day-btn {
+          width: 100%;
+          justify-content: center;
         }
 
         .timeline-item {
-          padding-left: 1rem;
+          padding-left: 0.9rem;
         }
 
         .timeline-item::before {
@@ -250,42 +395,86 @@
           height: 10px;
         }
 
-        .day-header {
-          padding: 0.75rem 0.9rem;
+        .voucher-preview-img,
+        iframe {
+          height: 190px;
+        }
+
+        .rating-box {
+          padding: 0.85rem;
+        }
+
+        .star-btn {
+          font-size: 1.45rem;
+        }
+
+        .btn {
+          min-height: 42px;
         }
 
         .login-card {
-          padding: 1.5rem;
-          border-radius: 22px;
-        }
-
-        .toast-container {
-          left: 0 !important;
-          right: 0 !important;
-          top: 0 !important;
-          transform: none !important;
-          padding-left: 12px !important;
-          padding-right: 12px !important;
+          max-width: 100%;
+          padding: 1.35rem;
         }
       }
 
-      @media (max-width: 480px) {
+      @media (max-width: 575.98px) {
         .summary-value {
-          font-size: 1.1rem;
+          font-size: 1rem;
+        }
+
+        .card-zecure {
+          padding: 0.85rem;
+        }
+
+        .day-header {
+          padding: 0.75rem 0.85rem;
+        }
+
+        .voucher-preview-img,
+        iframe {
+          height: 180px;
+        }
+
+        .star-btn {
+          font-size: 1.35rem;
+        }
+
+        .timeline-status-icon {
+          width: 100%;
+        }
+
+        .timeline-status-icon .btn {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 390px) {
+        body {
+          font-size: 13px;
         }
 
         .nav-segmented .nav-link {
-          font-size: 0.8rem;
-          padding: 8px 10px;
+          font-size: 0.74rem;
+          padding: 7px 10px;
         }
 
-        .timeline-time {
-          font-size: 0.75rem;
+        .summary-value {
+          font-size: 0.95rem;
         }
 
-        .timeline-address,
-        .small {
-          font-size: 0.8rem !important;
+        .voucher-preview-img,
+        iframe {
+          height: 160px;
+        }
+
+        .login-card {
+          padding: 1.1rem;
+          border-radius: 18px;
+        }
+
+        .app-header h1 {
+          font-size: 1rem;
         }
       }
     </style>
@@ -305,6 +494,7 @@
             style="width: 48px; height: 48px"
           ></i>
         </div>
+
         <h2 class="fw-bold mb-1">Guia Turismo - JG</h2>
         <p class="text-white-50 small mb-4">Portal de Acesso Seguro</p>
 
@@ -351,6 +541,7 @@
                 Carregando...
               </h1>
             </div>
+
             <button
               class="btn btn-sm btn-outline-light rounded-pill px-3"
               id="btnLogout"
@@ -363,23 +554,21 @@
 
       <main class="container">
         <div class="row g-3 mb-4">
-          <div class="col-4">
+          <div class="col-12 col-sm-4">
             <div class="card-zecure text-center h-100">
               <div class="text-muted small fw-bold mb-1">PENDENTE</div>
-              <div class="summary-value text-warning" id="countPendentes">
-                0
-              </div>
+              <div class="summary-value text-warning" id="countPendentes">0</div>
             </div>
           </div>
-          <div class="col-4">
+
+          <div class="col-12 col-sm-4">
             <div class="card-zecure text-center h-100">
               <div class="text-muted small fw-bold mb-1">OK</div>
-              <div class="summary-value text-success" id="countConcluidas">
-                0
-              </div>
+              <div class="summary-value text-success" id="countConcluidas">0</div>
             </div>
           </div>
-          <div class="col-4">
+
+          <div class="col-12 col-sm-4">
             <div class="card-zecure text-center bg-dark text-white h-100">
               <div class="text-white-50 small fw-bold mb-1">TOTAL</div>
               <div class="summary-value" id="totalGastos">R$ 0</div>
@@ -422,6 +611,7 @@
           <div class="tab-pane fade" id="tabFinanceiro">
             <div class="card-zecure mb-4">
               <h6 class="fw-bold mb-3">Lançamento de Despesa</h6>
+
               <div class="row g-2">
                 <div class="col-12">
                   <input
@@ -431,7 +621,8 @@
                     placeholder="Descrição do gasto"
                   />
                 </div>
-                <div class="col-7">
+
+                <div class="col-12 col-sm-7">
                   <input
                     type="number"
                     id="finValor"
@@ -439,13 +630,15 @@
                     placeholder="Valor R$"
                   />
                 </div>
-                <div class="col-5">
+
+                <div class="col-12 col-sm-5">
                   <button class="btn btn-primary w-100" id="btnSaveFin">
                     Lançar
                   </button>
                 </div>
               </div>
             </div>
+
             <div id="finCards"></div>
           </div>
 
@@ -489,10 +682,18 @@
 
       const notify = (msg, type = "primary") => {
         const id = Date.now();
-        const html = `<div id="toast-${id}" class="toast align-items-center text-white bg-${type} border-0 show mb-2" role="alert"><div class="d-flex"><div class="toast-body fw-bold">${msg}</div></div></div>`;
+        const html = `
+          <div id="toast-${id}" class="toast align-items-center text-white bg-${type} border-0 show mb-2" role="alert">
+            <div class="d-flex">
+              <div class="toast-body fw-bold">${msg}</div>
+            </div>
+          </div>
+        `;
+
         document
           .querySelector(".toast-container")
           .insertAdjacentHTML("beforeend", html);
+
         setTimeout(() => {
           document.getElementById(`toast-${id}`)?.remove();
         }, 3000);
@@ -542,53 +743,60 @@
         activeListeners = [];
       }
 
-      document
-        .getElementById("btnLogin")
-        .addEventListener("click", async () => {
-          const nome = document
-            .getElementById("loginNome")
-            .value.trim()
-            .toLowerCase();
-          const pin = document.getElementById("loginPin").value;
+      function ratingFromStars(stars) {
+        const map = {
+          5: 10,
+          4: 8,
+          3: 6,
+          2: 4,
+          1: 2,
+        };
+        return map[stars] || 0;
+      }
 
-          if (!nome || !pin) {
-            notify("Preencha todos os campos", "danger");
-            return;
-          }
+      document.getElementById("btnLogin").addEventListener("click", async () => {
+        const nome = document
+          .getElementById("loginNome")
+          .value.trim()
+          .toLowerCase();
+        const pin = document.getElementById("loginPin").value;
 
-          try {
-            const hashed = await hashPin(pin);
-            const snap = await get(ref(db, "users"));
-            const users = snap.val() || {};
+        if (!nome || !pin) {
+          notify("Preencha todos os campos", "danger");
+          return;
+        }
 
-            for (const id in users) {
-              const dbName = String(users[id].name || "")
-                .trim()
-                .toLowerCase();
+        try {
+          const hashed = await hashPin(pin);
+          const snap = await get(ref(db, "users"));
+          const users = snap.val() || {};
 
-              if (dbName === nome && users[id].pinHash === hashed) {
-                userData = { id, ...users[id] };
-                sessionStorage.setItem(
-                  "zecureSession",
-                  JSON.stringify(userData),
-                );
-                startApp();
-                return;
-              }
+          for (const id in users) {
+            const dbName = String(users[id].name || "")
+              .trim()
+              .toLowerCase();
+
+            if (dbName === nome && users[id].pinHash === hashed) {
+              userData = { id, ...users[id] };
+              sessionStorage.setItem("zecureSession", JSON.stringify(userData));
+              startApp();
+              return;
             }
-
-            notify("Acesso negado", "danger");
-          } catch (error) {
-            console.error("Erro no login:", error);
-            notify("Erro de conexão", "danger");
           }
-        });
+
+          notify("Acesso negado", "danger");
+        } catch (error) {
+          console.error("Erro no login:", error);
+          notify("Erro de conexão", "danger");
+        }
+      });
 
       const startApp = () => {
         document.getElementById("loginView").classList.add("hidden");
         document.getElementById("panelView").classList.remove("hidden");
         document.getElementById("clientDisplayName").innerText =
           userData?.name || "Cliente";
+
         syncData();
         lucide.createIcons();
       };
@@ -600,10 +808,13 @@
           onValue(ref(db, "itineraries"), (snap) => {
             const list = Object.entries(snap.val() || {})
               .map(([id, v]) => ({ id, ...v }))
-              .filter((i) => i.clienteId === userData.id);
+              .filter((i) => {
+                const ids = Array.isArray(i.clienteIds) ? i.clienteIds : [];
+                return i.clienteId === userData.id || ids.includes(userData.id);
+              });
 
             renderRoteiro(list);
-          }),
+          })
         );
 
         activeListeners.push(
@@ -613,7 +824,7 @@
               .filter((f) => f.clienteId === userData.id);
 
             renderFinanceiro(list);
-          }),
+          })
         );
 
         activeListeners.push(
@@ -623,7 +834,7 @@
               .filter((v) => v.clienteId === userData.id);
 
             renderVouchers(list);
-          }),
+          })
         );
       };
 
@@ -644,8 +855,8 @@
 
         const sorted = [...list].sort((a, b) =>
           `${a.data || ""} ${a.horario || ""}`.localeCompare(
-            `${b.data || ""} ${b.horario || ""}`,
-          ),
+            `${b.data || ""} ${b.horario || ""}`
+          )
         );
 
         const groupedByDate = sorted.reduce((acc, item) => {
@@ -656,52 +867,150 @@
         }, {});
 
         const orderedDates = Object.keys(groupedByDate).sort((a, b) =>
-          a.localeCompare(b),
+          a.localeCompare(b)
         );
 
         container.innerHTML = orderedDates
-          .map((dateKey) => {
+          .map((dateKey, index) => {
             const items = groupedByDate[dateKey];
+            const groupId = `day-items-${index}`;
 
             const itemsHtml = items
               .sort((a, b) =>
-                String(a.horario || "").localeCompare(String(b.horario || "")),
+                String(a.horario || "").localeCompare(String(b.horario || ""))
               )
-              .map(
-                (i) => `
+              .map((i) => {
+                const currentStars = Number(i.avaliacaoEstrelas || 0);
+                const currentNota = Number(i.avaliacaoNota || 0);
+                const feedbackText = i.feedbackCliente || i.feedback || "";
+
+                return `
                   <div class="timeline-item ${i.status === "realizado" ? "done" : ""}">
                     <div class="card-zecure">
                       <div class="d-flex justify-content-between align-items-start gap-3">
-                        <div class="flex-grow-1">
+                        <div class="flex-grow-1" style="min-width:0;">
                           <div class="timeline-time">${escapeHtml(i.horario || "Horário não informado")}</div>
                           <h6 class="fw-bold mb-1">${escapeHtml(i.atracao || "Atração não informada")}</h6>
                           <div class="timeline-address">${escapeHtml(i.endereco || "Local não definido")}</div>
                           <div class="small text-muted">${escapeHtml(i.observacao || "Sem observações")}</div>
+
+                          ${
+                            i.status === "realizado"
+                              ? `
+                                <div class="rating-box mt-3">
+                                  <div class="small fw-bold mb-1">Avaliação registrada</div>
+                                  <div class="rating-note mb-1">
+                                    ${currentStars} estrela(s) - Nota ${currentNota}
+                                  </div>
+                                  <div class="small text-muted">
+                                    ${escapeHtml(feedbackText || "Sem comentário")}
+                                  </div>
+                                </div>
+                              `
+                              : `
+                                <div class="rating-box hidden" id="rating-box-${i.id}">
+                                  <div class="small fw-bold">Avalie esta experiência</div>
+
+                                  <div class="star-rating" data-rating-id="${i.id}">
+                                    ${[1, 2, 3, 4, 5]
+                                      .map(
+                                        (star) => `
+                                          <button
+                                            type="button"
+                                            class="star-btn"
+                                            data-action="select-star"
+                                            data-id="${i.id}"
+                                            data-star="${star}"
+                                          >
+                                            ★
+                                          </button>
+                                        `
+                                      )
+                                      .join("")}
+                                  </div>
+
+                                  <div class="rating-note" id="rating-note-${i.id}">
+                                    Selecione de 1 a 5 estrelas
+                                  </div>
+
+                                  <textarea
+                                    id="rating-text-${i.id}"
+                                    class="form-control mt-2"
+                                    rows="3"
+                                    placeholder="Escreva sua avaliação"
+                                  ></textarea>
+
+                                  <div class="d-flex gap-2 mt-2 flex-column flex-sm-row">
+                                    <button
+                                      class="btn btn-success btn-sm"
+                                      data-action="save-rating"
+                                      data-id="${i.id}"
+                                    >
+                                      Salvar avaliação
+                                    </button>
+                                    <button
+                                      class="btn btn-outline-secondary btn-sm"
+                                      data-action="cancel-rating"
+                                      data-id="${i.id}"
+                                    >
+                                      Cancelar
+                                    </button>
+                                  </div>
+
+                                  <input type="hidden" id="rating-stars-${i.id}" value="0" />
+                                </div>
+                              `
+                          }
                         </div>
 
                         <div class="timeline-status-icon">
                           ${
                             i.status === "pendente"
-                              ? `<button class="btn btn-sm btn-dark rounded-pill" data-action="complete-task" data-id="${i.id}" type="button">Check</button>`
+                              ? `
+                                <button
+                                  class="btn btn-sm btn-dark rounded-pill"
+                                  data-action="open-rating"
+                                  data-id="${i.id}"
+                                  type="button"
+                                >
+                                  Check
+                                </button>
+                              `
                               : `<i data-lucide="check" class="text-success"></i>`
                           }
                         </div>
                       </div>
                     </div>
                   </div>
-                `,
-              )
+                `;
+              })
               .join("");
 
             return `
               <div class="day-group">
                 <div class="day-header">
-                  <span>${escapeHtml(formatDateLabel(dateKey))}</span>
-                  <span class="day-badge">${items.length} ${
-                    items.length === 1 ? "atração" : "atrações"
-                  }</span>
+                  <div class="d-flex align-items-center gap-2 flex-wrap" style="min-width:0;">
+                    <span>${escapeHtml(formatDateLabel(dateKey))}</span>
+                    <span class="day-badge">${items.length} ${
+                      items.length === 1 ? "atração" : "atrações"
+                    }</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    class="toggle-day-btn"
+                    data-action="toggle-day"
+                    data-target="${groupId}"
+                    data-open="false"
+                  >
+                    <i data-lucide="chevron-down"></i>
+                    Visualizar atrações
+                  </button>
                 </div>
-                ${itemsHtml}
+
+                <div id="${groupId}" class="day-items-hidden">
+                  ${itemsHtml}
+                </div>
               </div>
             `;
           })
@@ -714,80 +1023,146 @@
         const button = event.target.closest("[data-action]");
         if (!button) return;
 
-        const { action, id } = button.dataset;
+        const { action, id, star, target } = button.dataset;
 
-        if (action === "complete-task") {
+        if (action === "toggle-day") {
+          const container = document.getElementById(target);
+          if (!container) return;
+
+          const isOpen = button.dataset.open === "true";
+
+          if (isOpen) {
+            container.classList.add("day-items-hidden");
+            button.dataset.open = "false";
+            button.innerHTML = `<i data-lucide="chevron-down"></i> Visualizar atrações`;
+          } else {
+            container.classList.remove("day-items-hidden");
+            button.dataset.open = "true";
+            button.innerHTML = `<i data-lucide="chevron-up"></i> Ocultar atrações`;
+          }
+
+          lucide.createIcons();
+          return;
+        }
+
+        if (action === "open-rating") {
+          const box = document.getElementById(`rating-box-${id}`);
+          if (!box) return;
+          box.classList.remove("hidden");
+          return;
+        }
+
+        if (action === "cancel-rating") {
+          const box = document.getElementById(`rating-box-${id}`);
+          if (!box) return;
+          box.classList.add("hidden");
+          return;
+        }
+
+        if (action === "select-star") {
+          const selectedStar = Number(star || 0);
+          document.getElementById(`rating-stars-${id}`).value = selectedStar;
+
+          const note = document.getElementById(`rating-note-${id}`);
+          const nota = ratingFromStars(selectedStar);
+
+          if (note) {
+            note.innerText = `${selectedStar} estrela(s) - Nota ${nota}`;
+          }
+
+          document
+            .querySelectorAll(`.star-rating[data-rating-id="${id}"] .star-btn`)
+            .forEach((starBtn) => {
+              const starValue = Number(starBtn.dataset.star || 0);
+              starBtn.classList.toggle("active", starValue <= selectedStar);
+            });
+
+          return;
+        }
+
+        if (action === "save-rating") {
           try {
+            const stars = Number(
+              document.getElementById(`rating-stars-${id}`)?.value || 0
+            );
+            const nota = ratingFromStars(stars);
+            const feedback = document
+              .getElementById(`rating-text-${id}`)
+              ?.value.trim();
+
+            if (!stars) {
+              notify("Selecione a quantidade de estrelas", "warning");
+              return;
+            }
+
             button.disabled = true;
             button.innerText = "Salvando...";
 
             await update(ref(db, `itineraries/${id}`), {
               status: "realizado",
+              avaliacaoEstrelas: stars,
+              avaliacaoNota: nota,
+              feedbackCliente: feedback || "",
               updatedAt: new Date().toISOString(),
             });
 
-            notify("Atividade concluída", "success");
+            notify("Atividade concluída e avaliada", "success");
           } catch (error) {
-            console.error("Erro ao concluir atividade:", error);
-            notify("Não foi possível concluir a atividade", "danger");
+            console.error("Erro ao salvar avaliação:", error);
+            notify("Não foi possível salvar a avaliação", "danger");
             button.disabled = false;
-            button.innerText = "Check";
+            button.innerText = "Salvar avaliação";
           }
         }
       });
 
-      document
-        .getElementById("btnSaveFin")
-        .addEventListener("click", async () => {
-          const desc = document.getElementById("finDesc").value.trim();
-          const valor = Number(document.getElementById("finValor").value);
+      document.getElementById("btnSaveFin").addEventListener("click", async () => {
+        const desc = document.getElementById("finDesc").value.trim();
+        const valor = Number(document.getElementById("finValor").value);
 
-          if (!desc || !valor) {
-            notify("Dados incompletos", "warning");
-            return;
-          }
+        if (!desc || !valor) {
+          notify("Dados incompletos", "warning");
+          return;
+        }
 
-          try {
-            await set(push(ref(db, "financial")), {
-              clienteId: userData.id,
-              clienteNome: userData.name,
-              descricao: desc,
-              valor,
-              data: new Date().toISOString(),
-              origem: "cliente",
-            });
+        try {
+          await set(push(ref(db, "financial")), {
+            clienteId: userData.id,
+            clienteNome: userData.name,
+            descricao: desc,
+            valor,
+            data: new Date().toISOString(),
+            origem: "cliente",
+          });
 
-            notify("Gasto registrado", "success");
-            document.getElementById("finDesc").value = "";
-            document.getElementById("finValor").value = "";
-          } catch (error) {
-            console.error("Erro ao registrar gasto:", error);
-            notify("Não foi possível registrar o gasto", "danger");
-          }
-        });
+          notify("Gasto registrado", "success");
+          document.getElementById("finDesc").value = "";
+          document.getElementById("finValor").value = "";
+        } catch (error) {
+          console.error("Erro ao registrar gasto:", error);
+          notify("Não foi possível registrar o gasto", "danger");
+        }
+      });
 
       function renderFinanceiro(list) {
-        const total = list.reduce(
-          (acc, curr) => acc + Number(curr.valor || 0),
-          0,
-        );
+        const total = list.reduce((acc, curr) => acc + Number(curr.valor || 0), 0);
 
         document.getElementById("totalGastos").innerText =
           formatCurrencyBRL(total);
 
         const sorted = [...list].sort((a, b) =>
-          String(b.data || "").localeCompare(String(a.data || "")),
+          String(b.data || "").localeCompare(String(a.data || ""))
         );
 
         document.getElementById("finCards").innerHTML =
           sorted
             .map(
               (f) => `
-                <div class="card-zecure mb-2 d-flex justify-content-between align-items-center gap-3">
+                <div class="card-zecure mb-2 d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 gap-sm-3">
                   <div class="small fw-bold">${escapeHtml(f.descricao || "-")}</div>
                   <div class="text-success fw-bold">${formatCurrencyBRL(f.valor || 0)}</div>
                 </div>
-              `,
+              `
             )
             .join("") ||
           '<div class="text-center py-4 text-muted">Nenhum gasto registrado</div>';
@@ -803,25 +1178,64 @@
         }
 
         const sorted = [...list].sort((a, b) =>
-          String(b.createdAt || "").localeCompare(String(a.createdAt || "")),
+          String(b.createdAt || "").localeCompare(String(a.createdAt || ""))
         );
 
         container.innerHTML = sorted
           .map((v) => {
             const fileUrl = v.url || "#";
             const isImage = String(v.contentType || "").startsWith("image/");
+            const isPdf =
+              String(v.contentType || "").includes("pdf") ||
+              String(v.fileName || "").toLowerCase().endsWith(".pdf");
 
             return `
               <div class="col-12 col-md-6">
-                <div class="card-zecure h-100">
+                <div class="card-zecure h-100 d-flex flex-column">
                   ${
                     isImage
-                      ? `<img src="${fileUrl}" alt="Voucher" class="img-fluid rounded-4 mb-3" style="max-height:220px; object-fit:cover; width:100%;">`
-                      : `<div class="border rounded-4 mb-3 d-flex align-items-center justify-content-center text-muted" style="height:220px;">Documento disponível</div>`
+                      ? `
+                        <img
+                          src="${fileUrl}"
+                          alt="Voucher"
+                          class="img-fluid rounded-4 mb-3 voucher-preview-img"
+                        />
+                      `
+                      : isPdf
+                        ? `
+                          <iframe
+                            src="${fileUrl}"
+                            class="w-100 rounded-4 mb-3"
+                            style="height:220px; border:1px solid #e2e8f0;"
+                            title="Pré-visualização do voucher"
+                          ></iframe>
+                        `
+                        : `
+                          <div
+                            class="border rounded-4 mb-3 d-flex align-items-center justify-content-center text-muted"
+                            style="height:220px;"
+                          >
+                            Documento disponível
+                          </div>
+                        `
                   }
-                  <div class="voucher-card-title mb-1">${escapeHtml(v.atracao || "Voucher")}</div>
-                  <div class="small text-muted mb-3">${escapeHtml(v.data || "")}</div>
-                  <a href="${fileUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark w-100">
+
+                  <div class="voucher-card-title mb-1">
+                    ${escapeHtml(v.atracao || "Voucher")}
+                  </div>
+                  <div class="small text-muted mb-2">
+                    ${escapeHtml(v.data || "")}
+                  </div>
+                  <div class="small text-muted mb-3">
+                    ${escapeHtml(v.fileName || "Arquivo")}
+                  </div>
+
+                  <a
+                    href="${fileUrl}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-outline-dark w-100 mt-auto"
+                  >
                     Ver documento
                   </a>
                 </div>
@@ -839,10 +1253,12 @@
 
       window.addEventListener("load", () => {
         const session = sessionStorage.getItem("zecureSession");
+
         if (session) {
           userData = JSON.parse(session);
           startApp();
         }
+
         lucide.createIcons();
       });
     </script>
